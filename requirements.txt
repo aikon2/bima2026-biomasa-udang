@@ -1,0 +1,6 @@
+numpy
+opencv-python
+pyyaml
+scikit-learn
+ultralytics==8.0.230
+torch
