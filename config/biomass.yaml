@@ -1,2 +1,6 @@
 a: 0.012
 b: 3.1
+# Optional: pond-level biomass estimate (pond_biomass_kg = ABW x stocked_pcs x survival_rate).
+# pond:
+#   stocked_pcs: 100000
+#   survival_rate: 0.85

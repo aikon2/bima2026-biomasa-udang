@@ -39,7 +39,11 @@ def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     args = parse_args()
     weights_path = resolve_path(args.weights)
-    onnx_path = export_onnx(weights_path, args.imgsz, args.opset)
+    try:
+        onnx_path = export_onnx(weights_path, args.imgsz, args.opset)
+    except FileNotFoundError as error:
+        LOGGER.error("Export failed: %s", error)
+        return 1
     expected_onnx = resolve_path(load_yaml("config/paths.yaml")["onnx"])
     LOGGER.info("Exported ONNX: %s", onnx_path)
     if onnx_path.resolve() != expected_onnx.resolve():
