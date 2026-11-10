@@ -1,4 +1,9 @@
+# Default capture device (used when run_trt.py --source is omitted).
 device: 0
 width: 640
 height: 360
 fps: 15
+# Jetson CSI camera (run_trt.py --source csi), via GStreamer nvarguscamerasrc.
+csi:
+  sensor_id: 0
+  flip_method: 0
