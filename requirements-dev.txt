@@ -1,0 +1,7 @@
+# Development machine: run the unit tests without a GPU or TensorRT.
+numpy
+opencv-python-headless
+pyyaml
+pandas
+scikit-learn
+pytest

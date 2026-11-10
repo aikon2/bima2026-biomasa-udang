@@ -1,6 +1,4 @@
-numpy
-opencv-python
-pyyaml
-scikit-learn
-ultralytics==8.0.230
-torch
+# Dependencies are split by environment. Install the file that matches your machine:
+#   requirements-train.txt   PC/GPU workstation: training and ONNX export (ultralytics, torch, onnx)
+#   requirements-jetson.txt  Jetson Nano runtime (OpenCV and TensorRT come from JetPack)
+#   requirements-dev.txt     Development machine: unit tests without a GPU

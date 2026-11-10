@@ -1,0 +1,5 @@
+# YOLOv8 detector settings shared by export and runtime.
+conf_threshold: 0.4
+iou_threshold: 0.45
+num_classes: 1
+imgsz: 640

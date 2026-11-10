@@ -1,0 +1,7 @@
+# PC/GPU workstation only: training and ONNX export. Do NOT install on Jetson.
+ultralytics==8.0.230
+torch
+onnx
+onnxsim
+numpy
+pyyaml

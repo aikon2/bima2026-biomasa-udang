@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Model binaries (keep models/yolo/.gitkeep)
+models/**/*.pt
+*.onnx
+*.trt
+*.engine
+
+# Runtime outputs
+outputs/
+
+# Tooling state
+.omc/

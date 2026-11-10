@@ -1,0 +1,9 @@
+# Jetson Nano runtime (JetPack 4.6, Python 3.6).
+# OpenCV (with GStreamer) and TensorRT are provided by JetPack:
+#   do NOT pip install opencv-python here, it replaces the GStreamer/CUDA-enabled build.
+# pycuda: install with `pip3 install pycuda` after exporting CUDA paths, e.g.
+#   export PATH=/usr/local/cuda/bin:$PATH
+#   export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+numpy
+pyyaml
+pycuda

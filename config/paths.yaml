@@ -1,0 +1,5 @@
+# Single source of truth for model artifacts and outputs (paths relative to repo root).
+weights_pt: models/yolo/shrimp.pt
+onnx: models/yolo/shrimp.onnx
+engine: models/yolo/shrimp_fp16.trt
+output_dir: outputs
