@@ -18,7 +18,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.config import load_yaml, resolve_path  # noqa: E402
+from src.config import load_yaml, resolve_cli_path, resolve_path  # noqa: E402
 from src.geometry import compute_homography, reprojection_errors_cm  # noqa: E402
 
 LOGGER = logging.getLogger("calibrate_homography")
@@ -62,9 +62,9 @@ def write_homography(homography: Sequence[Sequence[float]], config_path) -> Path
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Compute px->cm plane homography.")
-    parser.add_argument("--points", required=True,
+    parser.add_argument("--points", type=resolve_cli_path, required=True,
                         help="CSV with columns u,v,x_cm,y_cm (>= 4 rows).")
-    parser.add_argument("--out", default=DEFAULT_OUT, help="Calibration YAML to update.")
+    parser.add_argument("--out", type=resolve_cli_path, default=str(resolve_path(DEFAULT_OUT)), help="Calibration YAML to update.")
     parser.add_argument("--dry-run", action="store_true", help="Print only, do not write.")
     return parser.parse_args()
 

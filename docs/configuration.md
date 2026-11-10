@@ -1,8 +1,10 @@
 # Configuration reference
 
-All configuration lives in `config/*.yaml`. Every path in these files and on the command line
-(`--source <video>`, `--output`, `--engine`, `--csv`, `--points`, `--out`, `--json-out`) is
-resolved against the **repository root** when relative, not against the current directory.
+All configuration lives in `config/*.yaml`. Relative paths **inside these files** (and the
+built-in defaults) are resolved against the **repository root**. Relative paths **typed on the
+command line** (`--source <video>`, `--output`, `--engine`, `--weights`, `--csv`,
+`--calibration-csv`, `--points`, `--out`, `--json-out`) are resolved against the **current
+directory**, like any normal CLI tool.
 
 ## `config/paths.yaml`
 

@@ -19,6 +19,18 @@ def resolve_path(relative_path: Union[str, Path]) -> Path:
     return REPO_ROOT / candidate
 
 
+def resolve_cli_path(user_path: Union[str, Path]) -> Path:
+    """Resolve a path typed on the command line against the current directory.
+
+    Users expect `--csv data.csv` to mean the file next to their shell, so CLI
+    arguments use the cwd while config-file defaults stay repo-root-relative.
+    """
+    candidate = Path(user_path)
+    if candidate.is_absolute():
+        return candidate
+    return Path.cwd().resolve() / candidate
+
+
 def load_yaml(relative_path: Union[str, Path]) -> Dict[str, Any]:
     """Load a YAML mapping from a repo-relative path (empty file -> {})."""
     yaml_path = resolve_path(relative_path)

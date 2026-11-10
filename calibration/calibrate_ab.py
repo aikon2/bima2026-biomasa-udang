@@ -19,7 +19,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.config import load_yaml, resolve_path  # noqa: E402
+from src.config import load_yaml, resolve_cli_path, resolve_path  # noqa: E402
 
 LOGGER = logging.getLogger("calibrate_ab")
 
@@ -129,9 +129,10 @@ def write_biomass_config(fit: Dict[str, object], out_path) -> Path:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Fit shrimp length-weight model W = a*L^b.")
-    parser.add_argument("--csv", default=DEFAULT_CSV,
-                        help="CSV with length_cm,weight_g columns (repo-relative or absolute).")
-    parser.add_argument("--out", default=DEFAULT_OUT, help="Output biomass YAML.")
+    parser.add_argument("--csv", type=resolve_cli_path, default=str(resolve_path(DEFAULT_CSV)),
+                        help="CSV with length_cm,weight_g columns (relative to the current directory).")
+    parser.add_argument("--out", type=resolve_cli_path, default=str(resolve_path(DEFAULT_OUT)),
+                        help="Output biomass YAML.")
     parser.add_argument("--force", action="store_true",
                         help="Allow fewer than {} samples.".format(MIN_CALIBRATION_SAMPLES))
     parser.add_argument("--dry-run", action="store_true", help="Print the fit, do not write.")

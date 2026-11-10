@@ -20,7 +20,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.config import resolve_path  # noqa: E402
+from src.config import resolve_cli_path, resolve_path  # noqa: E402
 
 LOGGER = logging.getLogger("evaluate")
 
@@ -140,13 +140,13 @@ def format_table(results: Dict[str, Optional[dict]]) -> str:
 def parse_args(argv=None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Evaluate predicted shrimp length/weight against ground truth.")
-    parser.add_argument("--csv", default=DEFAULT_CSV,
+    parser.add_argument("--csv", type=resolve_cli_path, default=str(resolve_path(DEFAULT_CSV)),
                         help="CSV with length_gt_cm,length_pred_cm and/or "
                              "weight_gt_g,weight_pred_g columns (default: %(default)s).")
-    parser.add_argument("--calibration-csv", default=None,
+    parser.add_argument("--calibration-csv", type=resolve_cli_path, default=None,
                         help="Length-weight calibration CSV (length_cm,weight_g); warns if "
                              "evaluation rows duplicate it (data leakage).")
-    parser.add_argument("--json-out", default=None, help="Also write metrics as JSON here.")
+    parser.add_argument("--json-out", type=resolve_cli_path, default=None, help="Also write metrics as JSON here.")
     return parser.parse_args(argv)
 
 

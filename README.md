@@ -46,7 +46,7 @@ systematic bias in length is possible; quantify it with `evaluation/evaluate.py`
 ```text
 run_trt.py                      Runtime entry point (Jetson): camera -> detector -> metrics
 src/
-  config.py                     YAML loading; paths resolved against the repo root
+  config.py                     YAML loading; config paths vs CLI (cwd) paths
   camera.py                     USB device / CSI (GStreamer) / video-file source
   preprocess.py                 Letterbox preprocessing (numpy + OpenCV)
   detector_trt.py               TensorRT engine wrapper (tensorrt, pycuda)
@@ -211,7 +211,7 @@ enables the pond-biomass estimate. Recalibrate per pond/cycle when possible.
 python3 run_trt.py                                  # source = 'device' in config/camera.yaml, with window
 python3 run_trt.py --source 1                       # USB device index
 python3 run_trt.py --source csi                     # CSI camera via GStreamer
-python3 run_trt.py --source recordings/pond1.mp4    # video file (relative to the repo root)
+python3 run_trt.py --source recordings/pond1.mp4    # video file (relative to the current directory)
 python3 run_trt.py --source csi --headless --max-frames 500 --output outputs/pond1.csv
 python3 run_trt.py --engine models/yolo/other_fp16.trt
 ```
@@ -326,7 +326,7 @@ logging, evaluation metrics and leakage, and the `run_trt.py` CLI. The TensorRT/
 |---------|-------|
 | `Cannot open camera source` | Correct index (`ls /dev/video*`), cable, permissions (`video` group), camera not used by another process. |
 | CSI camera fails | Test with `gst-launch-1.0 nvarguscamerasrc ! nvoverlaysink`; restart `sudo systemctl restart nvargus-daemon`; make sure the JetPack OpenCV (with GStreamer) is used, not a pip `opencv-python`. Supported `width/height/fps` depend on the sensor mode. |
-| `Video file not found` | Relative paths are resolved against the repository root, not the current directory. |
+| `Video file not found` | Relative `--source` paths are resolved against the current directory; config-file paths against the repository root. Check the absolute path in the error. |
 | `Failed to deserialize TensorRT engine` | Engine built on another device or TensorRT version; rebuild it on this Jetson with `scripts/build_trt_engine.sh`. |
 | `Unsupported (dynamic or non-NCHW) input shape` | Export with a fixed `--imgsz` (no dynamic axes). |
 | `ImportError` for `tensorrt` / `pycuda` | Run with the JetPack system Python 3.6; install pycuda with the CUDA paths exported. |

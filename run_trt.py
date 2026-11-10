@@ -14,7 +14,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from src.config import load_yaml, resolve_path  # noqa: E402
+from src.config import load_yaml, resolve_cli_path, resolve_path  # noqa: E402
+
+CSI_SOURCE = "csi"
+
+
+def parse_source_arg(value: str) -> str:
+    """Keep device indices and 'csi' as-is; resolve video paths against the cwd."""
+    if value.isdigit() or value == CSI_SOURCE:
+        return value
+    return str(resolve_cli_path(value))
 
 LOGGER = logging.getLogger("run_trt")
 
@@ -26,18 +35,18 @@ JSON_INDENT = 2
 def parse_args(argv=None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Shrimp length & biomass estimation (TensorRT YOLOv8, Jetson Nano).")
-    parser.add_argument("--source", default=None,
+    parser.add_argument("--source", type=parse_source_arg, default=None,
                         help="Device index (e.g. 0), 'csi' for a Jetson CSI camera, or a "
                              "video file path. Default: 'device' in config/camera.yaml.")
     parser.add_argument("--headless", action="store_true",
                         help="Do not open a display window (SSH / no monitor).")
-    parser.add_argument("--output", default=None,
+    parser.add_argument("--output", type=resolve_cli_path, default=None,
                         help="Per-detection CSV log path. Default: "
                              "<output_dir>/run_<timestamp>.csv (output_dir from "
                              "config/paths.yaml). The summary JSON is written next to it.")
     parser.add_argument("--max-frames", type=int, default=None,
                         help="Stop after this many frames (default: until source ends/ESC).")
-    parser.add_argument("--engine", default=None,
+    parser.add_argument("--engine", type=resolve_cli_path, default=None,
                         help="TensorRT engine path. Default: 'engine' in config/paths.yaml.")
     return parser.parse_args(argv)
 

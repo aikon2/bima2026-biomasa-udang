@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.config import load_yaml, resolve_path  # noqa: E402
+from src.config import load_yaml, resolve_cli_path, resolve_path  # noqa: E402
 
 DEFAULT_OPSET = 12
 LOGGER = logging.getLogger("export_to_onnx")
@@ -16,8 +16,9 @@ def parse_args() -> argparse.Namespace:
     paths_cfg = load_yaml("config/paths.yaml")
     detector_cfg = load_yaml("config/detector.yaml")
     parser = argparse.ArgumentParser(description="Export YOLOv8 .pt weights to ONNX.")
-    parser.add_argument("--weights", default=paths_cfg["weights_pt"],
-                        help="Path to .pt weights (repo-relative or absolute).")
+    parser.add_argument("--weights", type=resolve_cli_path,
+                        default=str(resolve_path(paths_cfg["weights_pt"])),
+                        help="Path to .pt weights (relative to the current directory).")
     parser.add_argument("--imgsz", type=int, default=detector_cfg["imgsz"],
                         help="Square network input size in pixels.")
     parser.add_argument("--opset", type=int, default=DEFAULT_OPSET,
