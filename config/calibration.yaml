@@ -1,1 +1,6 @@
+# Pixel -> measurement-plane scale.
+# Fallback scalar scale, used when homography is null.
 cm_per_pixel: 0.035
+# Optional 3x3 homography (image px -> plane cm); write it with
+# calibration/calibrate_homography.py.
+homography: null

@@ -1,11 +1,13 @@
 
 import cv2
-from .measurement import length_cm
+from .geometry import PlaneScale
+from .measurement import measure_length
 from .biomass import weight
 
 class Pipeline:
     def __init__(self, cam, det, k, a, b):
-        self.cam,self.det,self.k,self.a,self.b = cam,det,k,a,b
+        self.cam,self.det,self.a,self.b = cam,det,a,b
+        self.scale = PlaneScale(k)
 
     def run(self):
         while True:
@@ -15,7 +17,7 @@ class Pipeline:
             total=0; n=0
             for det in boxes:
                 b = (det.x1, det.y1, det.x2, det.y2)
-                L = length_cm(frame,b,self.k)
+                L = measure_length(frame,det,self.scale,{}).length_cm
                 W = weight(L,self.a,self.b)
                 if W: total+=W; n+=1
                 cv2.rectangle(frame,b[:2],b[2:],(0,255,0),2)

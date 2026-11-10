@@ -1,0 +1,9 @@
+# Per-detection length measurement settings.
+# method: skeleton (curved body, default) | min_area_rect (legacy straight long side)
+method: skeleton
+# Boxes closer than this to the frame border are counted as detected but not measured.
+edge_margin_px: 4
+# ROIs whose width or height is below this are rejected as empty.
+min_roi_px: 8
+# Elliptical kernel size for morphological open/close (<=1 disables).
+morph_kernel: 3
