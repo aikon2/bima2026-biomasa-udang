@@ -13,7 +13,8 @@ class Pipeline:
             if not ok: break
             boxes = self.det.detect(frame)
             total=0; n=0
-            for b in boxes:
+            for det in boxes:
+                b = (det.x1, det.y1, det.x2, det.y2)
                 L = length_cm(frame,b,self.k)
                 W = weight(L,self.a,self.b)
                 if W: total+=W; n+=1

@@ -4,12 +4,15 @@ from src.detector_trt import ShrimpDetectorTRT
 from src.pipeline import Pipeline
 
 cfg_paths = load_yaml("config/paths.yaml")
+cfg_det = load_yaml("config/detector.yaml")
 cfg_cam = load_yaml("config/camera.yaml")
 cfg_cal = load_yaml("config/calibration.yaml")
 cfg_bio = load_yaml("config/biomass.yaml")
 
 cam = Camera(cfg_cam)
-detector = ShrimpDetectorTRT(str(resolve_path(cfg_paths["engine"])))
+detector = ShrimpDetectorTRT(str(resolve_path(cfg_paths["engine"])),
+                             cfg_det["conf_threshold"], cfg_det["iou_threshold"],
+                             cfg_det["num_classes"])
 
 Pipeline(cam, detector, cfg_cal["cm_per_pixel"],
          cfg_bio["a"], cfg_bio["b"]).run()
