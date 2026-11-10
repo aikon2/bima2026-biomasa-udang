@@ -349,4 +349,4 @@ logging, evaluation metrics and leakage, and the `run_trt.py` CLI. The TensorRT/
 
 ## License
 
-TODO: no license has been chosen yet. Until one is added, all rights are reserved by the authors.
+This project is open source and released under the [MIT License](LICENSE).
